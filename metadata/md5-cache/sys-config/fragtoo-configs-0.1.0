@@ -1,0 +1,8 @@
+DEFINED_PHASES=-
+DESCRIPTION=Placeholder fragtoo package (fragtoo-configs) awaiting target build
+EAPI=8
+HOMEPAGE=https://codeberg.org{R}
+KEYWORDS=~amd64 ~arm64
+LICENSE=MIT
+SLOT=0
+_md5_=c273f0236a8fae0f75f2968b7cb1782a
