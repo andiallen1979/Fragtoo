@@ -1,0 +1,9 @@
+DEFINED_PHASES=install
+DESCRIPTION=fragtoo Helper scripts
+EAPI=8
+HOMEPAGE=https://codeberg.org/andiallen1979/fragtoo
+KEYWORDS=~amd64 ~arm64
+LICENSE=GPL-2
+RDEPEND=app-shells/bash sys-apps/portage
+SLOT=0
+_md5_=c102be9839518da6ef84acf1af480cef

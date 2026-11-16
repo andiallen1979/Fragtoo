@@ -1,12 +1,32 @@
+# Copyright 2026 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
 EAPI=8
-DESCRIPTION="Repository maintenance and push scripts for fragtoo"
-HOMEPAGE="https://codeberg.org{R}"
+
+DESCRIPTION="fragtoo Helper scripts"
+HOMEPAGE="https://codeberg.org/andiallen1979/fragtoo"
 S="${WORKDIR}"
-LICENSE="MIT"
+
+LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm64"
 
+RDEPEND="
+	app-shells/bash
+	sys-apps/portage
+"
+
 src_install() {
-	mkdir -p "${T}/bin" && tar -xJf "${FILESDIR}/fragtoo-scripts-bundle.tar.xz" -C "${T}/bin" || die
-	dobin "${T}/bin"/*
+	dobin "${FILESDIR}/setpkgkw"
+	dobin "${FILESDIR}/setpkgenv"
+	dobin "${FILESDIR}/setpkguse"
+	dobin "${FILESDIR}/setpkgmask"
+	dobin "${FILESDIR}/cleanpkg"
+	dobin "${FILESDIR}/mknbdimg"
+	dobin "${FILESDIR}/fragtoo-repo-prep"
+	dobin "${FILESDIR}/fragtoo-sync-configs"
+	dobin "${FILESDIR}/fragtoo-push"
+	dobin "${FILESDIR}/fragtoo-bump"
+	dobin "${FILESDIR}/fragtoo-emptytree"
+	dobin "${FILESDIR}/fragtoo-audit"
 }

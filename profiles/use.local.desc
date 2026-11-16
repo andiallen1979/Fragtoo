@@ -1,0 +1,7 @@
+# This file is deprecated as per GLEP 56 in favor of metadata.xml. Please add
+# your descriptions to your package's metadata.xml ONLY.
+# * generated automatically using egencache *
+
+app-misc/fragtoocfg:gtk3 - Build and install the native GTK3 graphical interface (fragtoocfg-gtk3)
+app-misc/fragtoocfg:gtk4 - Build and install the native GTK4 graphical interface (fragtoocfg-gtk4)
+app-misc/fragtoocfg:qt6 - Build and install the native PyQt6 graphical interface (fragtoocfg-qt6)
