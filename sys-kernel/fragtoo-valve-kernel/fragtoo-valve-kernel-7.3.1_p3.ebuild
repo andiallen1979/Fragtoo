@@ -17,7 +17,7 @@ src_unpack() {
 
 src_prepare() {
 	default
-	rm -f localversion* && echo "-p3-valve3" > localversion.10-fragtoo || die
+	rm -rf .git localversion* && sed -i "s|^EXTRAVERSION =.*|EXTRAVERSION = -p3-valve3|" Makefile || die
 	local ref="${WORKDIR}/linux-neptune-73-devel"
 	local cfg="${WORKDIR}/fragtoo-valve.config"
 	cp "${ref}/config.x86_64" "${cfg}" || die
