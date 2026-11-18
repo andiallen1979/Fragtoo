@@ -10,4 +10,4 @@ RDEPEND=media-video/pipewire media-video/wireplumber
 RESTRICT=mirror bindist
 SLOT=0
 SRC_URI=https://steamdeck-packages.steamos.cloud/archlinux-mirror/sources/jupiter-main/steamdeck-dsp-1.04-1.src.tar.gz
-_md5_=2e14132472ea12f2b67e0d1a0ce98041
+_md5_=c636a54d76353f41823ea2007412e1c2

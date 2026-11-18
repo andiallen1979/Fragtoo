@@ -1,0 +1,10 @@
+--- a/compiler/DirectedGraph/Schedule.hh	2024-06-19 09:27:41.000000000 -0400
++++ b/compiler/DirectedGraph/Schedule.hh	2026-11-18 07:04:50.639474714 -0500
+@@ -12,6 +12,7 @@
+  ******************************************************************************/
+ 
+ #pragma once
++#include <cstdint>
+ #include <cassert>
+ #include <functional>
+ #include <iostream>
