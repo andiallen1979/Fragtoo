@@ -1,6 +1,6 @@
 EAPI=8
 DESCRIPTION="Placeholder fragtoo package (fragtoo-kernel-config) awaiting target build"
-HOMEPAGE="https://codeberg.org"
+HOMEPAGE="https://fragtoo.com"
 S="${WORKDIR}"
 LICENSE="MIT"
 SLOT="0"
