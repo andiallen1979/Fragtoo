@@ -23,6 +23,10 @@ src_prepare() {
 	KCONFIG_CONFIG="${cfg}" "${S}/scripts/kconfig/merge_config.sh" -m -r "${cfg}" "${ref}/config-neptune" || die
 	"${S}/scripts/config" --file "${cfg}" -d RUST -d DEBUG_INFO_BTF -d IKHEADERS \
 		--set-str DEFAULT_HOSTNAME "fragtoo" || die
-	merge_configs=( "${cfg}" )
-	kernel-build_src_prepare
+	:
+}
+
+src_configure() {
+	merge_configs=( "${WORKDIR}/fragtoo-valve.config" )
+	kernel-build_src_configure
 }
