@@ -17,11 +17,12 @@ src_unpack() {
 
 src_prepare() {
 	default
+	rm -f localversion* && echo "-p3-valve3" > localversion.10-fragtoo || die
 	local ref="${WORKDIR}/linux-neptune-73-devel"
 	local cfg="${WORKDIR}/fragtoo-valve.config"
 	cp "${ref}/config.x86_64" "${cfg}" || die
 	KCONFIG_CONFIG="${cfg}" "${S}/scripts/kconfig/merge_config.sh" -m -r "${cfg}" "${ref}/config-neptune" || die
-	"${S}/scripts/config" --file "${cfg}" -d RUST -d DEBUG_INFO_BTF -d IKHEADERS \
+	"${S}/scripts/config" --file "${cfg}" -d RUST -d DEBUG_INFO_BTF -d IKHEADERS -d LOCALVERSION_AUTO \
 		--set-str DEFAULT_HOSTNAME "fragtoo" || die
 	:
 }
