@@ -1,0 +1,5 @@
+gui-wm/gamescope avif libei luajit pipewire seatd wayland X
+media-libs/mesa abi_x86_32 llvm lm-sensors -opencl proprietary-codecs vaapi vdpau vulkan vulkan-overlay wayland X zstd
+games-util/mangohud abi_x86_32 dbus mangoapp wayland X -xnvctrl
+media-video/pipewire abi_x86_32 bluetooth echo-cancel flatpak lv2 pipewire-alsa sound-server systemd v4l
+sys-apps/systemd boot policykit
