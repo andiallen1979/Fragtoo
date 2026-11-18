@@ -19,6 +19,11 @@ KEYWORDS="~amd64"
 IUSE="debug"
 BDEPEND="dev-vcs/git sys-apps/diffutils"
 
+PATCHES=(
+	"${FILESDIR}/fix-hdmi-frl-status-polling-work-linkage.patch"
+	"${FILESDIR}/fix-ath11k-unitest-makefile.patch"
+)
+
 src_unpack() {
 	unpack linux-7.3.tar.xz patch-${PV}.xz linux-gentoo-patches-${PV}.tar.xz \
 		gentoo-kernel-config-g19.tar.bz2 fedora-kernel-config-${PV}-gentoo.tar.xz
