@@ -22,6 +22,7 @@ BDEPEND="dev-vcs/git sys-apps/diffutils"
 PATCHES=(
 	"${FILESDIR}/fix-hdmi-frl-status-polling-work-linkage.patch"
 	"${FILESDIR}/fix-ath11k-unitest-makefile.patch"
+	"${FILESDIR}/fix-binutils-247-module-relocs.patch"
 )
 
 src_unpack() {

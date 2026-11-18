@@ -1,0 +1,10 @@
+--- a/Makefile
++++ b/Makefile
+@@ -1240,7 +1240,7 @@
+ # COMDAT-deduplicated sections. Use --force-group-allocation to resolve these
+ # group relocations at module link time.
+-KBUILD_LDFLAGS_MODULE += $(call ld-option,--force-group-allocation)
++# KBUILD_LDFLAGS_MODULE += $(call ld-option,--force-group-allocation)
+ 
+ # Do not warn about orphan sections when building modules with LLD, as LLD
+ # assigns orphan sections to output sections based on naming conventions.
