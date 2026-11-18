@@ -1,0 +1,10 @@
+DEFINED_PHASES=-
+DESCRIPTION=Meta-package for fragtoo Steam Deck gaming configuration and utilities
+EAPI=8
+HOMEPAGE=https://fragtoo.com
+IUSE=+bootcfg +conf +kconf +scripts menu
+KEYWORDS=amd64 ~amd64
+LICENSE=metapackage
+RDEPEND=bootcfg? ( sys-boot/gentool-bootcfg ) menu? ( app-misc/gentool-menu ) conf? ( sys-config/fragtoo-configs ) kconf? ( sys-kernel/fragtoo-kernel-config ) scripts? ( app-portage/gentool-scripts )
+SLOT=0
+_md5_=5f74e178defab48077d789f2c23b5007

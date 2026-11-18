@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=Meta package for the fragtoo Gentoo overlay
-EAPI=8
-HOMEPAGE=https://codeberg.org{R}
-KEYWORDS=~amd64 ~arm64
-LICENSE=metapackage
-RDEPEND=app-misc/fragtoocfg app-portage/fragtoo-scripts sys-config/fragtoo-configs sys-kernel/fragtoo-kernel-config
-SLOT=0
-_md5_=e7fdcae968c03bc2a3ed470f3f1a702b
