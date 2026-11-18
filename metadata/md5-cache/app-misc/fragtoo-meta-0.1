@@ -1,0 +1,10 @@
+DEFINED_PHASES=-
+DESCRIPTION=Meta-package for Fragtoo Steam Deck gaming configuration and utilities
+EAPI=8
+HOMEPAGE=https://fragtoo.com
+IUSE=+bootcfg +conf +dsp +fan +hub +hw +kconf +scripts menu
+KEYWORDS=~amd64
+LICENSE=metapackage
+RDEPEND=bootcfg? ( sys-boot/gentool-bootcfg ) conf? ( sys-config/fragtoo-configs-valve ) dsp? ( media-sound/steamdeck-dsp ) fan? ( sys-power/jupiter-fan-control ) hub? ( app-portage/fragtoo-hub ) hw? ( sys-apps/fragtoo-hw-support ) kconf? ( sys-kernel/fragtoo-kernel-config ) menu? ( app-misc/gentool-menu ) scripts? ( app-portage/gentool-scripts )
+SLOT=0
+_md5_=7bd8a1b3085ed756598ceaa121ae5321

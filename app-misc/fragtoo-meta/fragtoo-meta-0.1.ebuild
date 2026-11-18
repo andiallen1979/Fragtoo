@@ -7,7 +7,7 @@ KEYWORDS="~amd64"
 IUSE="+bootcfg +conf +dsp +fan +hub +hw +kconf +scripts menu"
 RDEPEND="
 	bootcfg? ( sys-boot/gentool-bootcfg )
-	conf? ( || ( sys-config/fragtoo-configs-valve sys-config/fragtoo-configs-custom ) )
+	conf? ( sys-config/fragtoo-configs-valve )
 	dsp? ( media-sound/steamdeck-dsp )
 	fan? ( sys-power/jupiter-fan-control )
 	hub? ( app-portage/fragtoo-hub )

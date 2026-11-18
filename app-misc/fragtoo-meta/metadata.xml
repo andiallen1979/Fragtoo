@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "https://gentoo.org">
 <pkgmetadata>
-	<maintainer type="person">
-		<email>andiallen1979@users.noreply.github.com</email>
-		<name>J. Allen</name>
-	</maintainer>
 	<use>
 		<flag name="bootcfg">Install sys-boot/gentool-bootcfg</flag>
-		<flag name="conf">Install sys-config/fragtoo-configs</flag>
+		<flag name="conf">Install sys-config/fragtoo-configs-valve</flag>
+		<flag name="dsp">Install media-sound/steamdeck-dsp</flag>
+		<flag name="fan">Install sys-power/jupiter-fan-control</flag>
+		<flag name="hub">Install app-portage/fragtoo-hub</flag>
+		<flag name="hw">Install sys-apps/fragtoo-hw-support</flag>
 		<flag name="kconf">Install sys-kernel/fragtoo-kernel-config</flag>
 		<flag name="menu">Install app-misc/gentool-menu</flag>
 		<flag name="scripts">Install app-portage/gentool-scripts</flag>

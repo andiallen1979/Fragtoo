@@ -1,0 +1,13 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=compile install unpack
+DEPEND=media-sound/faust media-libs/lv2 media-libs/ladspa-sdk dev-libs/boost
+DESCRIPTION=Valve Steam Deck PipeWire/LV2 speaker and mic DSP processing
+EAPI=8
+HOMEPAGE=https://fragtoo.com
+KEYWORDS=~amd64
+LICENSE=all-rights-reserved
+RDEPEND=media-video/pipewire media-video/wireplumber
+RESTRICT=mirror bindist
+SLOT=0
+SRC_URI=https://steamdeck-packages.steamos.cloud/archlinux-mirror/sources/jupiter-main/steamdeck-dsp-1.04-1.src.tar.gz
+_md5_=2e14132472ea12f2b67e0d1a0ce98041
