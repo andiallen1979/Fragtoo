@@ -6,6 +6,6 @@
 		<name>J. Allen</name>
 	</maintainer>
 	<upstream>
-		<remote-id type="codeberg">andiallen1979/fragtoo</remote-id>
+		<remote-id type="github">andiallen1979/fragtoo</remote-id>
 	</upstream>
 </pkgmetadata>
