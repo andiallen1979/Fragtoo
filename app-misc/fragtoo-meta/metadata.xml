@@ -6,10 +6,13 @@
 		<flag name="conf">Install sys-config/fragtoo-configs-valve</flag>
 		<flag name="dsp">Install media-sound/steamdeck-dsp</flag>
 		<flag name="fan">Install sys-power/jupiter-fan-control</flag>
+		<flag name="fkernel">Install sys-kernel/fragtoo-kernel (Gentoo + Valve patches)</flag>
+		<flag name="gkernel">Install standard sys-kernel/gentoo-kernel or gentoo-kernel-bin</flag>
 		<flag name="hub">Install app-portage/fragtoo-hub</flag>
 		<flag name="hw">Install sys-apps/fragtoo-hw-support</flag>
 		<flag name="kconf">Install sys-kernel/fragtoo-kernel-config</flag>
 		<flag name="menu">Install app-misc/gentool-menu</flag>
 		<flag name="scripts">Install app-portage/gentool-scripts</flag>
+		<flag name="vkernel">Install sys-kernel/fragtoo-valve-kernel (Valve Neptune kernel)</flag>
 	</use>
 </pkgmetadata>

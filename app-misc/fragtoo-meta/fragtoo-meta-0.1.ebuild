@@ -4,15 +4,18 @@ HOMEPAGE="https://fragtoo.com"
 LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="+bootcfg +conf +dsp +fan +hub +hw +kconf +scripts menu"
+IUSE="+bootcfg +conf +dsp +fan +fkernel gkernel +hub +hw +kconf +scripts menu vkernel"
 RDEPEND="
 	bootcfg? ( sys-boot/gentool-bootcfg )
 	conf? ( sys-config/fragtoo-configs-valve )
 	dsp? ( media-sound/steamdeck-dsp )
 	fan? ( sys-power/jupiter-fan-control )
+	fkernel? ( sys-kernel/fragtoo-kernel )
+	gkernel? ( || ( sys-kernel/gentoo-kernel sys-kernel/gentoo-kernel-bin ) )
 	hub? ( app-portage/fragtoo-hub )
 	hw? ( sys-apps/fragtoo-hw-support )
 	kconf? ( sys-kernel/fragtoo-kernel-config )
 	menu? ( app-misc/gentool-menu )
 	scripts? ( app-portage/gentool-scripts )
+	vkernel? ( sys-kernel/fragtoo-valve-kernel )
 "
