@@ -28,7 +28,7 @@ src_unpack() {
 	rm -rf "${WORKDIR}/valve/.git" || die
 	tar -xJf "${DISTDIR}/linux-7.3.tar.xz" -C "${WORKDIR}/van" || die
 	patch -d "${WORKDIR}/van/linux-7.3" -p1 -s < "${WORKDIR}/patch-${PV}" || die
-	( cd "${WORKDIR}" && diff -Naur -x Makefile van/linux-7.3 valve ) > "${WORKDIR}/valve-deck.patch"
+	( cd "${WORKDIR}" && diff -Naur -x Makefile -x hid-asus.c -x amdgpu_dm_connector.c van/linux-7.3 valve ) > "${WORKDIR}/valve-deck.patch"
 	rm -rf "${WORKDIR}/van" "${WORKDIR}/valve" "${WORKDIR}/vsrc" || die
 }
 
