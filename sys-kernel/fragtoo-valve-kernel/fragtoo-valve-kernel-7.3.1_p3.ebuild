@@ -27,6 +27,6 @@ src_prepare() {
 }
 
 src_configure() {
-	merge_configs=( "${WORKDIR}/fragtoo-valve.config" )
+	kernel-build_merge_configs "${WORKDIR}/fragtoo-valve.config"
 	kernel-build_src_configure
 }
