@@ -1,0 +1,148 @@
+diff -Naur a/drv.c b/drv.c
+--- a/drv.c	2023-06-16 14:49:04.000000000 -0400
++++ b/drv.c	2026-11-18 15:08:03.816764277 -0500
+@@ -30,6 +30,7 @@
+ #define PCI_DEVICE_ID_AMD_17H_M10H_ROOT    0x15d0
+ #define PCI_DEVICE_ID_AMD_17H_M60H_ROOT    0x1630
+ #define PCI_DEVICE_ID_AMD_17H_M30H_ROOT    0x1480
++#define PCI_DEVICE_ID_AMD_19H_M60H_ROOT    0x14d8
+ 
+ #define MAX_ATTRS_LEN                      13
+ 
+@@ -427,6 +428,7 @@
+     { PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_ROOT) },
+     { PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M10H_ROOT) },
+     { PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M30H_ROOT) },
++    { PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_19H_M60H_ROOT) },
+     { PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_17H_M60H_ROOT) },
+     { }
+ };
+@@ -450,7 +452,7 @@
+     return 0;
+ }
+ 
+-static void ryzen_smu_driver_exit(void) {
++static void __exit ryzen_smu_driver_exit(void) {
+     pci_unregister_driver(&ryzen_smu_driver);
+ }
+ 
+diff -Naur a/smu.c b/smu.c
+--- a/smu.c	2023-06-16 14:49:04.000000000 -0400
++++ b/smu.c	2026-11-18 15:08:03.816847543 -0500
+@@ -318,8 +318,21 @@
+         return 0;
+     }
+ 
++    // Zen5 (Granite Ridge / Family 1Ah)
++    else if (cpu_family == 0x1A) {
++        switch(cpu_model) {
++            case 0x44:
++                g_smu.codename = CODENAME_GRANITERIDGE;
++                break;
++            default:
++                pr_err("CPUID: Unknown Zen5 processor model: 0x%X (CPUID: 0x%08X)", cpu_model, cpuid);
++                return -2;
++        }
++        return 0;
++    }
++
+     else {
+-        pr_err("CPUID: failed to detect Zen/Zen+/Zen2/Zen3 processor family (%Xh).", cpu_family);
++        pr_err("CPUID: failed to detect Zen/Zen+/Zen2/Zen3/Zen5 processor family (%Xh).", cpu_family);
+         return -1;
+     }
+ }
+@@ -340,6 +353,7 @@
+         case CODENAME_MILAN:
+         case CODENAME_CHAGALL:
+         case CODENAME_RAPHAEL:
++        case CODENAME_GRANITERIDGE:
+             g_smu.addr_rsmu_mb_cmd  = 0x3B10524;
+             g_smu.addr_rsmu_mb_rsp  = 0x3B10570;
+             g_smu.addr_rsmu_mb_args = 0x3B10A40;
+@@ -385,6 +399,7 @@
+         case CODENAME_MILAN:
+         case CODENAME_CHAGALL:
+         case CODENAME_RAPHAEL:
++        case CODENAME_GRANITERIDGE:
+             g_smu.addr_hsmp_mb_cmd = 0x3B10534;
+             g_smu.addr_hsmp_mb_rsp = 0x3B10980;
+             g_smu.addr_hsmp_mb_args = 0x3B109E0;
+@@ -442,6 +457,7 @@
+         case CODENAME_MILAN:
+         case CODENAME_CHAGALL:
+         case CODENAME_RAPHAEL:
++        case CODENAME_GRANITERIDGE:
+             g_smu.mp1_if_ver        = IF_VERSION_11;
+             g_smu.addr_mp1_mb_cmd   = 0x3B10530;
+             g_smu.addr_mp1_mb_rsp   = 0x3B1057C;
+@@ -500,6 +516,7 @@
+       case CODENAME_NAPLES: return "Naples";
+       case CODENAME_CHAGALL: return "Chagall";
+       case CODENAME_RAPHAEL: return "Raphael";
++      case CODENAME_GRANITERIDGE: return "GraniteRidge";
+       default: return "Undefined";
+    }
+ }
+@@ -565,6 +582,7 @@
+             fn[0] = 0x06;
+             goto BASE_ADDR_CLASS_1;
+         case CODENAME_RAPHAEL:
++        case CODENAME_GRANITERIDGE:
+             fn[0] = 0x04;
+             goto BASE_ADDR_CLASS_1;
+         case CODENAME_RENOIR:
+@@ -673,6 +691,7 @@
+             fn = 0x05;
+             break;
+         case CODENAME_RAPHAEL:
++        case CODENAME_GRANITERIDGE:
+             fn = 0x03;
+             break;
+         case CODENAME_CEZANNE:
+@@ -763,6 +782,7 @@
+             fn = 0x08;
+             break;
+         case CODENAME_RAPHAEL:
++        case CODENAME_GRANITERIDGE:
+             fn = 0x05;
+             break;
+         case CODENAME_RENOIR:
+@@ -909,6 +929,18 @@
+                     goto UNKNOWN_PM_TABLE_VERSION;
+             }
+             break;
++        case CODENAME_GRANITERIDGE:
++            switch (version) {
++                case 0x620105:
++                    g_smu.pm_dram_map_size = 0x724;
++                    break;
++                case 0x620205:
++                    g_smu.pm_dram_map_size = 0x994;
++                    break;
++                default:
++                    goto UNKNOWN_PM_TABLE_VERSION;
++            }
++            break;
+         default:
+             return SMU_Return_Unsupported;
+     }
+@@ -939,6 +971,7 @@
+         if (g_smu.codename == CODENAME_VERMEER  ||
+             g_smu.codename == CODENAME_MATISSE  ||
+             g_smu.codename == CODENAME_RAPHAEL  ||
++            g_smu.codename == CODENAME_GRANITERIDGE ||
+             g_smu.codename == CODENAME_RENOIR   ||
+             g_smu.codename == CODENAME_LUCIENNE ||
+             g_smu.codename == CODENAME_CEZANNE  ||
+diff -Naur a/smu.h b/smu.h
+--- a/smu.h	2023-06-16 14:49:04.000000000 -0400
++++ b/smu.h	2026-11-18 15:08:03.816780217 -0500
+@@ -85,6 +85,7 @@
+     CODENAME_NAPLES,
+     CODENAME_CHAGALL,
+     CODENAME_RAPHAEL,
++    CODENAME_GRANITERIDGE,
+ 
+     CODENAME_COUNT
+ };
