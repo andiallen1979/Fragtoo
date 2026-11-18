@@ -5,7 +5,7 @@ DESCRIPTION="Meta-package for fragtoo Steam Deck gaming configuration and utilit
 HOMEPAGE="https://fragtoo.com"
 LICENSE="metapackage"
 SLOT="0"
-KEYWORDS="amd64 ~amd64"
+KEYWORDS="~amd64"
 IUSE="+bootcfg +conf +kconf +scripts menu"
 RDEPEND="
 	bootcfg? ( sys-boot/gentool-bootcfg )
