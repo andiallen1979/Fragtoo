@@ -4,8 +4,9 @@ HOMEPAGE="https://fragtoo.com"
 LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="+bootcfg +conf +dsp +fan +fkernel gkernel +hub +hw +kconf menu patches +ryzen +scripts vkernel"
+IUSE="+bootcfg +conf +dsp +fan +fkernel gkernel +hub +hw +kconf menu patches +ryzen +scripts vkernel +profiles"
 RDEPEND="
+	profiles? ( app-portage/gentool-profiles )
 	bootcfg? ( sys-boot/gentool-bootcfg )
 	conf? (
 		sys-config/fragtoo-configs

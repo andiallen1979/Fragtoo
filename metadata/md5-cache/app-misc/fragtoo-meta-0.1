@@ -2,9 +2,9 @@ DEFINED_PHASES=-
 DESCRIPTION=Meta-package for Fragtoo Steam Deck & handheld gaming configuration and utilities
 EAPI=8
 HOMEPAGE=https://fragtoo.com
-IUSE=+bootcfg +conf +dsp +fan +fkernel gkernel +hub +hw +kconf menu patches +ryzen +scripts vkernel
+IUSE=+bootcfg +conf +dsp +fan +fkernel gkernel +hub +hw +kconf menu patches +ryzen +scripts vkernel +profiles
 KEYWORDS=~amd64
 LICENSE=metapackage
-RDEPEND=bootcfg? ( sys-boot/gentool-bootcfg ) conf? ( sys-config/fragtoo-configs sys-config/fragtoo-configs-valve ) dsp? ( media-sound/steamdeck-dsp ) fan? ( sys-power/jupiter-fan-control ) fkernel? ( >=sys-kernel/fragtoo-kernel-7.3.1 ) gkernel? ( || ( sys-kernel/gentoo-kernel sys-kernel/gentoo-kernel-bin ) ) hub? ( app-portage/fragtoo-hub ) hw? ( sys-apps/fragtoo-hw-support ) kconf? ( sys-kernel/fragtoo-kernel-config ) menu? ( app-misc/gentool-menu ) patches? ( sys-kernel/fragtoo-patches ) ryzen? ( >=app-admin/ryzen_smu-0.1.5-r1 ) scripts? ( app-portage/gentool-scripts ) vkernel? ( sys-kernel/fragtoo-valve-kernel )
+RDEPEND=profiles? ( app-portage/gentool-profiles ) bootcfg? ( sys-boot/gentool-bootcfg ) conf? ( sys-config/fragtoo-configs sys-config/fragtoo-configs-valve ) dsp? ( media-sound/steamdeck-dsp ) fan? ( sys-power/jupiter-fan-control ) fkernel? ( >=sys-kernel/fragtoo-kernel-7.3.1 ) gkernel? ( || ( sys-kernel/gentoo-kernel sys-kernel/gentoo-kernel-bin ) ) hub? ( app-portage/fragtoo-hub ) hw? ( sys-apps/fragtoo-hw-support ) kconf? ( sys-kernel/fragtoo-kernel-config ) menu? ( app-misc/gentool-menu ) patches? ( sys-kernel/fragtoo-patches ) ryzen? ( >=app-admin/ryzen_smu-0.1.5-r1 ) scripts? ( app-portage/gentool-scripts ) vkernel? ( sys-kernel/fragtoo-valve-kernel )
 SLOT=0
-_md5_=9104a087c12a2c3707cad81327eeef32
+_md5_=24de24868191c5491247092c0f6df533
