@@ -11,4 +11,6 @@ src_install() {
 	doins "${FILESDIR}/make.conf.fragtoo"
 	insinto /etc/portage/package.use
 	doins "${FILESDIR}/fragtoo-valve.use"
+	insinto /etc/portage/package.license
+	doins "${FILESDIR}/fragtoo-valve.license"
 }
