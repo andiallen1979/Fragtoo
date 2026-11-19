@@ -34,10 +34,7 @@ class MatrixTests(unittest.TestCase):
             matrix = MatrixStore(Path(tmp) / "matrix.json").load()
 
         self.assertEqual([variant.name for variant in matrix.variants], ["Fragtoo Valve baseline"])
-        self.assertEqual(
-            matrix.variants[0].targets.splitlines(),
-            ["sys-kernel/fragtoo-kernel", "sys-kernel/fragtoo-valve-kernel"],
-        )
+        self.assertEqual(matrix.variants[0].targets, "app-misc/fragtoo-meta")
 
     def test_matrix_round_trip_and_private_atomic_store(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -124,18 +121,18 @@ class PresetTests(unittest.TestCase):
 
         baseline = presets["fragtoo-valve-baseline"].variant
         self.assertIn('COMMON_FLAGS="-march=znver2 -O2 -pipe"', baseline.make_conf)
-        self.assertIn("sys-kernel/fragtoo-kernel ~amd64", baseline.accept_keywords)
+        self.assertIn('FEATURES="buildpkg binpkg-multi-instance parallel-fetch"', baseline.make_conf)
+        self.assertIn("app-misc/fragtoo-meta vkernel patches", baseline.package_use)
         self.assertIn("media-sound/steamdeck-dsp all-rights-reserved", baseline.package_license)
         self.assertIn("CONFIG_MFD_STEAMDECK=m", baseline.kernel_config)
         self.assertIn("# CONFIG_KUNIT is not set", baseline.kernel_config)
         self.assertIn("CONFIG_SND_SOC_AMD_ACP5x=m", baseline.kernel_config)
+        self.assertIn("fragtoo-meta is the distro entry point", baseline.patches)
         self.assertIn("Valve delta by diffing vanilla Linux", baseline.patches)
         self.assertIn("config-neptune", baseline.patches)
         self.assertIn("sys-kernel/fragtoo-patches/files/fix-binutils-247-module-relocs.patch", baseline.patches)
-        self.assertEqual(
-            baseline.targets.splitlines(),
-            ["sys-kernel/fragtoo-kernel", "sys-kernel/fragtoo-valve-kernel"],
-        )
+        self.assertIn("app-misc/fragtoo-meta", baseline.world_packages.splitlines())
+        self.assertEqual(baseline.targets, "app-misc/fragtoo-meta")
 
 
 class AssistantTests(unittest.TestCase):
