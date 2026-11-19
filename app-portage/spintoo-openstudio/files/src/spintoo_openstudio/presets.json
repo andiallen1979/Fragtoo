@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "presets": [
+    {
+      "id": "empty",
+      "description": "A blank Gentoo variant for a configuration you want to build from scratch.",
+      "variant": {
+        "name": "Empty"
+      }
+    },
+    {
+      "id": "fragtoo-valve-baseline",
+      "description": "Fragtoo's Valve/Steam Deck starting point: existing Portage settings, Steam Deck kernel fragments, the two kernel targets, and source-backed patch mappings.",
+      "variant": {
+        "name": "Fragtoo Valve baseline",
+        "arch": "amd64",
+        "vcpus": 4,
+        "memory_mib": 8192,
+        "make_conf": "COMMON_FLAGS=\"-march=znver2 -O2 -pipe\"\nCFLAGS=\"${COMMON_FLAGS}\"\nCXXFLAGS=\"${COMMON_FLAGS}\"\nFCFLAGS=\"${COMMON_FLAGS}\"\nFFLAGS=\"${COMMON_FLAGS}\"\nRUSTFLAGS=\"-C target-cpu=znver2\"\n\nCPU_FLAGS_X86=\"aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt rdrand sha sse sse2 sse3 sse4_1 sse4_2 sse4a ssse3\"\nVIDEO_CARDS=\"amdgpu radeonsi\"\nINPUT_DEVICES=\"libinput\"\nABI_X86=\"64 32\"",
+        "package_use": "gui-wm/gamescope avif libei luajit pipewire seatd wayland X\nmedia-libs/mesa abi_x86_32 llvm lm-sensors -opencl proprietary-codecs vaapi vdpau vulkan vulkan-overlay wayland X zstd\ngames-util/mangohud abi_x86_32 dbus mangoapp wayland X -xnvctrl\nmedia-video/pipewire abi_x86_32 bluetooth echo-cancel flatpak lv2 pipewire-alsa sound-server systemd v4l\nsys-apps/systemd boot policykit",
+        "accept_keywords": "app-admin/ryzen_smu ~amd64\napp-misc/fragtoo-meta ~amd64\nsys-config/fragtoo-configs-valve ~amd64\nsys-kernel/fragtoo-kernel ~amd64\nsys-kernel/fragtoo-valve-kernel ~amd64\nsys-kernel/fragtoo-patches ~amd64",
+        "package_mask": "",
+        "package_unmask": "",
+        "package_env": "",
+        "package_license": "media-sound/steamdeck-dsp all-rights-reserved",
+        "patches": "sys-kernel/fragtoo-kernel: the ebuild generates the Valve delta by diffing vanilla Linux 7.3 plus the upstream stable patch against the Valve Neptune 7.3.1 source; it excludes Makefile, hid-asus.c, and amdgpu_dm_connector.c.\nsys-kernel/fragtoo-kernel local patches:\nsys-kernel/fragtoo-kernel/files/fix-hdmi-frl-status-polling-work-linkage.patch\nsys-kernel/fragtoo-kernel/files/fix-ath11k-unitest-makefile.patch\nsys-kernel/fragtoo-kernel/files/fix-binutils-247-module-relocs.patch\nsys-kernel/fragtoo-valve-kernel: builds the Valve Neptune source directly and merges config.x86_64 with config-neptune; the ebuild declares no additional local patch files.\nsys-kernel/fragtoo-patches installs the separately maintained compatibility patches:\nsys-kernel/fragtoo-patches/files/fix-hdmi-frl-status-polling-work-linkage.patch\nsys-kernel/fragtoo-patches/files/fix-ath11k-unitest-makefile.patch\nsys-kernel/fragtoo-patches/files/fix-binutils-247-module-relocs.patch",
+        "kernel_config": "# From sys-kernel/fragtoo-kernel/files/steamdeck-hw.config\nCONFIG_MFD_STEAMDECK=m\nCONFIG_SENSORS_STEAMDECK=m\nCONFIG_EXTCON_STEAMDECK=m\nCONFIG_LEDS_STEAMDECK=m\nCONFIG_LEDS_VALVE=m\nCONFIG_HID_STEAM=m\nCONFIG_STEAM_FF=y\nCONFIG_HID_BPF=y\nCONFIG_NTSYNC=m\nCONFIG_PINCTRL_AMD=y\nCONFIG_I2C_DESIGNWARE_CORE=y\nCONFIG_I2C_DESIGNWARE_PLATFORM=y\nCONFIG_I2C_DESIGNWARE_PCI=y\nCONFIG_REGMAP_I2C=y\nCONFIG_REGMAP_SPI=y\n# Disable KUnit test suites incompatible with out-of-tree Valve backports\n# CONFIG_KUNIT is not set\n# CONFIG_KUNIT_ALL_TESTS is not set\n\n# From sys-kernel/fragtoo-kernel/files/steamdeck-gpu.config\nCONFIG_DRM_AMDGPU=m\nCONFIG_DRM_AMDGPU_USERPTR=y\nCONFIG_DRM_AMD_ACP=y\nCONFIG_DRM_AMD_DC=y\nCONFIG_DRM_AMD_DC_FP=y\nCONFIG_DRM_AMD_SECURE_DISPLAY=y\nCONFIG_DRM_AMD_COLOR_STEAMDECK=y\nCONFIG_HSA_AMD=y\nCONFIG_HSA_AMD_SVM=y\nCONFIG_AMD_PMC=m\nCONFIG_AMD_PMF=m\nCONFIG_X86_AMD_PSTATE=y\nCONFIG_X86_AMD_PSTATE_DEFAULT_MODE=3\n\n# From sys-kernel/fragtoo-kernel/files/steamdeck-audio.config\nCONFIG_SND_SOC_AMD_ACP5x=m\nCONFIG_SND_SOC_AMD_VANGOGH_MACH=m\nCONFIG_SND_SOC_AMD_ACP_COMMON=m\nCONFIG_SND_SOC_ACPI_AMD_MATCH=m\nCONFIG_SND_SOC_SOF_AMD_TOPLEVEL=m\nCONFIG_SND_SOC_SOF_AMD_COMMON=m\nCONFIG_SND_SOC_SOF_AMD_VANGOGH=m\nCONFIG_SND_SOC_NAU8821=m\nCONFIG_SND_SOC_CS35L41=m\nCONFIG_SND_SOC_CS35L41_LIB=m\nCONFIG_SND_SOC_CS35L41_I2C=m\nCONFIG_SND_SOC_CS35L41_SPI=m\nCONFIG_SND_SOC_MAX98388=m\n\n# From sys-kernel/fragtoo-kernel/files/steamdeck-sched.config\nCONFIG_PREEMPT=y\nCONFIG_PREEMPT_DYNAMIC=y\nCONFIG_HZ_1000=y\nCONFIG_HZ=1000\nCONFIG_NO_HZ_FULL=y\nCONFIG_SCHED_CLASS_EXT=y\nCONFIG_RCU_LAZY=y\nCONFIG_LRU_GEN=y\nCONFIG_LRU_GEN_ENABLED=y\nCONFIG_ZRAM=m\nCONFIG_ZRAM_BACKEND_ZSTD=y\nCONFIG_ZRAM_DEF_COMP_ZSTD=y\nCONFIG_ZSWAP=y\nCONFIG_ZSWAP_DEFAULT_ON=y\nCONFIG_ZSWAP_COMPRESSOR_DEFAULT_ZSTD=y",
+        "world_packages": "app-admin/ryzen_smu\napp-misc/fragtoo-meta\nnet-wireless/iw\nsys-kernel/linux-firmware\nsys-config/fragtoo-configs-valve\nsys-kernel/fragtoo-patches",
+        "targets": "sys-kernel/fragtoo-kernel\nsys-kernel/fragtoo-valve-kernel"
+      }
+    }
+  ]
+}

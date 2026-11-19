@@ -40,6 +40,7 @@ from .importers import (
 )
 from .libvirt_backend import VMBackendError, list_domains
 from .matrix import BuildMatrix, BuildVariant, MatrixError, MatrixStore
+from .presets import load_builtin_presets
 from .scheduler import BuildJob, ResourceBudget, select_startable_jobs, suggested_resource_budget
 
 
@@ -113,8 +114,8 @@ class MainWindow(QMainWindow):
         page = QWidget()
         layout = QVBoxLayout(page)
         layout.addWidget(QLabel(
-            "Define independent Gentoo configurations to compare. Raw Portage syntax is preserved; "
-            "this prototype does not write to /etc/portage or launch builds."
+            "Start from the Fragtoo Valve baseline or an empty variant, then diverge configurations as needed. "
+            "Raw Portage syntax is preserved; this prototype does not write to /etc/portage or launch builds."
         ))
         split = QSplitter(Qt.Orientation.Horizontal)
         layout.addWidget(split, 1)
@@ -126,7 +127,7 @@ class MainWindow(QMainWindow):
         left_layout.addWidget(self.variant_list, 1)
         buttons = QHBoxLayout()
         for label, callback in (
-            ("New", self._new_variant),
+            ("New empty", self._new_variant),
             ("Duplicate", self._duplicate_variant),
             ("Remove", self._remove_variant),
         ):
@@ -136,7 +137,8 @@ class MainWindow(QMainWindow):
         left_layout.addLayout(buttons)
         import_buttons = QVBoxLayout()
         for label, callback in (
-            ("Import profiles", self._import_profiles),
+            ("Add preset", self._add_builtin_preset),
+            ("Import external profiles", self._import_profiles),
             ("Import overlay targets", self._import_overlay_targets),
             ("Import config files", self._import_config_files),
         ):
@@ -412,6 +414,39 @@ class MainWindow(QMainWindow):
         self._refresh_variant_list()
         self.matrix_status.setText(f"Imported {len(imported)} profile(s); save to keep them.")
 
+    def _add_builtin_preset(self) -> None:
+        if self.dirty and not self._save_current_variant():
+            return
+        try:
+            presets = load_builtin_presets()
+        except MatrixError as exc:
+            QMessageBox.critical(self, "Could not load presets", str(exc))
+            return
+        choices = [f"{preset.variant.name}: {preset.description}" for preset in presets]
+        selected, ok = QInputDialog.getItem(
+            self,
+            "Add built-in preset",
+            "Choose a starting variant:",
+            choices,
+            0,
+            False,
+        )
+        if not ok:
+            return
+        preset = presets[choices.index(selected)]
+        base_name = preset.variant.name
+        name = base_name
+        suffix = 2
+        while any(item.name.casefold() == name.casefold() for item in self.matrix.variants):
+            name = f"{base_name} {suffix}"
+            suffix += 1
+        variant = BuildVariant.from_mapping({**asdict(preset.variant), "name": name})
+        self.matrix.variants.append(variant)
+        self.matrix_unsaved = True
+        self.current_row = len(self.matrix.variants) - 1
+        self._refresh_variant_list()
+        self.matrix_status.setText(f"Added preset '{name}'; save to keep it.")
+
     def _import_overlay_targets(self) -> None:
         if self.current_row < 0:
             return
@@ -455,7 +490,13 @@ class MainWindow(QMainWindow):
         self.matrix_status.setText(f"Imported configuration from {len(filenames)} file(s); save to keep it.")
 
     def _new_variant(self) -> None:
-        name, ok = QInputDialog.getText(self, "New build variant", "Variant name:")
+        name, ok = QInputDialog.getText(
+            self,
+            "New empty variant",
+            "Variant name:",
+            QLineEdit.EchoMode.Normal,
+            "Empty",
+        )
         if not ok:
             return
         if self.dirty and not self._save_current_variant():

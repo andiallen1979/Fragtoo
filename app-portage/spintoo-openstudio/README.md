@@ -5,6 +5,14 @@ prototype establishes a separate build matrix, a CPU/RAM-aware queue planner,
 a local-only OpenAI-compatible AI draft client, and read-only libvirt guest
 inventory.
 
+New matrices start from the bundled **Fragtoo Valve baseline**, with an
+**Empty** preset available for scratch variants. The baseline uses Fragtoo's
+Valve Portage settings, Steam Deck kernel config fragments, and both kernel
+targets. Its patch notes point back to the ebuild sources: the Gentoo-style
+kernel ebuild derives its Valve delta by diffing the vanilla and Valve source
+trees, while the Valve kernel ebuild builds the Valve source directly. Patch
+contents are not duplicated in the preset.
+
 Existing Gentoo profile catalogs can be imported as variants, existing
 `make.conf`, package configuration, kernel config, and patch files can be
 imported into a variant, and ebuilds can be discovered from a selected overlay

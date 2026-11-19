@@ -108,7 +108,9 @@ class MatrixStore:
 
     def load(self) -> BuildMatrix:
         if not self.path.exists():
-            return BuildMatrix([BuildVariant(name="baseline")])
+            from .presets import default_matrix
+
+            return default_matrix()
         try:
             raw = json.loads(self.path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError) as exc:

@@ -19,6 +19,7 @@ from spintoo_openstudio.importers import (
     import_profile_catalog,
 )
 from spintoo_openstudio.matrix import BuildMatrix, BuildVariant, MatrixError, MatrixStore
+from spintoo_openstudio.presets import load_builtin_presets
 from spintoo_openstudio.scheduler import (
     BuildJob,
     ResourceBudget,
@@ -28,6 +29,16 @@ from spintoo_openstudio.scheduler import (
 
 
 class MatrixTests(unittest.TestCase):
+    def test_missing_matrix_starts_from_fragtoo_valve_baseline(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            matrix = MatrixStore(Path(tmp) / "matrix.json").load()
+
+        self.assertEqual([variant.name for variant in matrix.variants], ["Fragtoo Valve baseline"])
+        self.assertEqual(
+            matrix.variants[0].targets.splitlines(),
+            ["sys-kernel/fragtoo-kernel", "sys-kernel/fragtoo-valve-kernel"],
+        )
+
     def test_matrix_round_trip_and_private_atomic_store(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "matrix.json"
@@ -87,6 +98,44 @@ class SchedulerTests(unittest.TestCase):
         budget.validate()
         self.assertGreaterEqual(budget.vcpus, 1)
         self.assertGreaterEqual(budget.memory_mib, 512)
+
+
+class PresetTests(unittest.TestCase):
+    def test_builtin_presets_offer_empty_and_source_backed_fragtoo_baseline(self):
+        presets = {preset.preset_id: preset for preset in load_builtin_presets()}
+        self.assertEqual(set(presets), {"empty", "fragtoo-valve-baseline"})
+
+        empty = presets["empty"].variant
+        self.assertEqual(empty.name, "Empty")
+        for field in (
+            "make_conf",
+            "package_use",
+            "accept_keywords",
+            "package_mask",
+            "package_unmask",
+            "package_env",
+            "package_license",
+            "patches",
+            "kernel_config",
+            "world_packages",
+            "targets",
+        ):
+            self.assertEqual(getattr(empty, field), "")
+
+        baseline = presets["fragtoo-valve-baseline"].variant
+        self.assertIn('COMMON_FLAGS="-march=znver2 -O2 -pipe"', baseline.make_conf)
+        self.assertIn("sys-kernel/fragtoo-kernel ~amd64", baseline.accept_keywords)
+        self.assertIn("media-sound/steamdeck-dsp all-rights-reserved", baseline.package_license)
+        self.assertIn("CONFIG_MFD_STEAMDECK=m", baseline.kernel_config)
+        self.assertIn("# CONFIG_KUNIT is not set", baseline.kernel_config)
+        self.assertIn("CONFIG_SND_SOC_AMD_ACP5x=m", baseline.kernel_config)
+        self.assertIn("Valve delta by diffing vanilla Linux", baseline.patches)
+        self.assertIn("config-neptune", baseline.patches)
+        self.assertIn("sys-kernel/fragtoo-patches/files/fix-binutils-247-module-relocs.patch", baseline.patches)
+        self.assertEqual(
+            baseline.targets.splitlines(),
+            ["sys-kernel/fragtoo-kernel", "sys-kernel/fragtoo-valve-kernel"],
+        )
 
 
 class AssistantTests(unittest.TestCase):

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spintoo-openstudio"
-version = "0.1.0"
+version = "0.1.1"
 description = "Gentoo build-matrix planner for isolated libvirt environments"
 requires-python = ">=3.13"
 
@@ -14,3 +14,6 @@ spintoo-openstudio = "spintoo_openstudio.app:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["spintoo_openstudio*"]
+
+[tool.setuptools.package-data]
+spintoo_openstudio = ["presets.json"]
