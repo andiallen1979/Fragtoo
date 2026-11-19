@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spintoo-openstudio"
+version = "0.1.0"
+description = "Gentoo build-matrix planner for isolated libvirt environments"
+requires-python = ">=3.13"
+
+[project.scripts]
+spintoo-openstudio = "spintoo_openstudio.app:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["spintoo_openstudio*"]

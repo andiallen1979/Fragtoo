@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <longdescription lang="en">
+    A Qt6 application for planning Gentoo build matrices across isolated
+    libvirt guests, with resource-aware scheduling and local AI draft support.
+  </longdescription>
+</pkgmetadata>

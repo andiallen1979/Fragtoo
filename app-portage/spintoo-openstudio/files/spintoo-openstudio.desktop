@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Spintoo OpenStudio
+Comment=Plan Gentoo build matrices for isolated virtual machines
+Exec=spintoo-openstudio
+Icon=system-run
+Type=Application
+Categories=Development;System;Emulator;
